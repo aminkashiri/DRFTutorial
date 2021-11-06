@@ -1,0 +1,19 @@
+version: '3.7'
+
+volumes:
+  data:
+
+services:
+  database:
+    restart: unless-stopped
+    # container_name: wizestudio-importdata_db
+    image: hub.wizedevelopment.ir/postgres:12.2-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_USER}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASS}
+      - POSTGRES_DB=${POSTGRESQL_DB}
+    command: ["postgres", "-c", "log_statement=all"]
+    volumes:
+      - data:/var/lib/postgresql/data:z # :z means this volume is shared between containers
+    ports:
+      - ${POSTGRESQL_PORT}:5432
